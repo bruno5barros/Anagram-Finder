@@ -1,20 +1,9 @@
 def validate_words_are_anagram(word1, word2):
     """Compare if this two words are anagrams"""
-    letter_counts = {}
+    if sorted(word2) == sorted(word1):
+        return True
 
-    for letter in word1:
-        if letter not in letter_counts:
-            letter_counts[letter] = 1
-        else:
-            letter_counts[letter] += 1
-
-    for letter in word2:
-        if not letter_counts[letter]:
-            return False
-        else:
-            letter_counts[letter] -= 1
-
-    return True
+    return False
 
 
 def find_anagrams(words):
@@ -22,7 +11,8 @@ def find_anagrams(words):
     anagrams_dict = {}
     for index, word in enumerate(words):
         for i in range(index + 1, len(words)):
-            if len(word) == len(words[i]) and words[i] not in anagrams_dict:
+            if len(word) == len(words[i]) and word != words[i] and \
+               words[i] not in anagrams_dict:
                 is_anagram = validate_words_are_anagram(word, words[i])
                 if is_anagram:
                     if word not in anagrams_dict:
@@ -49,8 +39,10 @@ def find_anagrams(words):
 
 
 words = []
+file_name = input("Please, insert the filename: ")
+file_name += ".txt"
 try:
-    with open("anagram.txt" , 'r') as f:
+    with open(file_name , 'r') as f:
         lines = f.readlines()
         for line in lines:
             words += line.split()
